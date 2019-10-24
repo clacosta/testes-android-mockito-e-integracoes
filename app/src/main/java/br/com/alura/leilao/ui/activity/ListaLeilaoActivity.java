@@ -35,7 +35,6 @@ public class ListaLeilaoActivity extends AppCompatActivity {
     }
 
     private void configuraListaLeiloes() {
-
         configuraAdapter();
         configuraRecyclerView();
     }
@@ -45,7 +44,7 @@ public class ListaLeilaoActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void configuraAdapter() {
+    private void configuraAdapter() {
         adapter = new ListaLeilaoAdapter(this);
         adapter.setOnItemClickListener(new ListaLeilaoAdapter.OnItemClickListener() {
             @Override
@@ -66,10 +65,10 @@ public class ListaLeilaoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        buscaLeiloes();
+        buscaLeiloes(adapter);
     }
 
-    public void buscaLeiloes() {
+    public void buscaLeiloes(final ListaLeilaoAdapter  adapter) {
         client.todos(new RespostaListener<List<Leilao>>() {
             @Override
             public void sucesso(List<Leilao> leiloes) {
