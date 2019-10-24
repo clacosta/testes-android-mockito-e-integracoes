@@ -4,11 +4,7 @@ import android.content.Context;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -22,26 +18,23 @@ import br.com.alura.leilao.api.retrofit.client.RespostaListener;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ListaLeilaoActivityTest {
 
     @Mock
     private Context context;
-    @Spy
-    private ListaLeilaoAdapter adapter = new ListaLeilaoAdapter(context);
+    @Mock
+    private ListaLeilaoAdapter adapter;
     @Mock
     private LeilaoWebClient client;
 
     @Test
     public void deve_AtualizarListaDeLeiloes_QuandoBuscarLeiloesDaApi() throws InterruptedException {
         final ListaLeilaoActivity activity = new ListaLeilaoActivity();
-        doNothing().when(adapter).atualizaLista();
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) {
@@ -54,8 +47,11 @@ public class ListaLeilaoActivityTest {
             }
         }).when(client).todos(any(RespostaListener.class));
         activity.buscaLeiloes(adapter, client);
-        final int quantidadeLeiloesDevolvida = adapter.getItemCount();
-        assertThat(quantidadeLeiloesDevolvida, is(2));
+        verify(client).todos(any(RespostaListener.class));
+        verify(adapter).atualiza(new ArrayList<>(Arrays.asList(
+                new Leilao("Computador"),
+                new Leilao("Carro")
+        )));
     }
 
 }
