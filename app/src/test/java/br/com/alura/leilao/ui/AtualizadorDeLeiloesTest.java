@@ -5,6 +5,7 @@ import android.content.Context;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -16,10 +17,10 @@ import java.util.List;
 import br.com.alura.leilao.api.retrofit.client.LeilaoWebClient;
 import br.com.alura.leilao.api.retrofit.client.RespostaListener;
 import br.com.alura.leilao.model.Leilao;
-import br.com.alura.leilao.ui.activity.ListaLeilaoActivity;
 import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
@@ -53,5 +54,21 @@ public class AtualizadorDeLeiloesTest {
                 new Leilao("Computador"),
                 new Leilao("Carro")
         )));
+    }
+
+    @Test
+    public void deve_ApresentaMensagemDeFalha_QuandoFalharABuscaDeLeiloes() {
+        final AtualizadorDeLeiloes atualizadorDeLeiloes = spy( new AtualizadorDeLeiloes());
+        doNothing().when(atualizadorDeLeiloes).mostraMensagemDeFalha(context);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) {
+                final RespostaListener<List<Leilao>> argument = invocation.getArgument(0);
+                argument.falha(anyString());
+                return null;
+            }
+        }).when(client).todos(any(RespostaListener.class));
+        atualizadorDeLeiloes.buscaLeiloes(adapter, client, context);
+        verify(atualizadorDeLeiloes).mostraMensagemDeFalha(context);
     }
 }

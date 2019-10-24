@@ -23,11 +23,15 @@ public class AtualizadorDeLeiloes {
 
             @Override
             public void falha(String mensagem) {
-                Toast.makeText(context,
-                        MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES,
-                        Toast.LENGTH_SHORT).show();
+                mostraMensagemDeFalha(context);
             }
         });
+    }
+
+    public void mostraMensagemDeFalha(Context context) {
+        Toast.makeText(context,
+                MENSAGEM_AVISO_FALHA_AO_CARREGAR_LEILOES,
+                Toast.LENGTH_SHORT).show();
     }
 
 }
