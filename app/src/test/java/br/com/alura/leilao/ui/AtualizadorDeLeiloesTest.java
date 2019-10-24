@@ -1,4 +1,4 @@
-package br.com.alura.leilao.ui.activity;
+package br.com.alura.leilao.ui;
 
 import android.content.Context;
 
@@ -16,6 +16,7 @@ import java.util.List;
 import br.com.alura.leilao.api.retrofit.client.LeilaoWebClient;
 import br.com.alura.leilao.api.retrofit.client.RespostaListener;
 import br.com.alura.leilao.model.Leilao;
+import br.com.alura.leilao.ui.activity.ListaLeilaoActivity;
 import br.com.alura.leilao.ui.recyclerview.adapter.ListaLeilaoAdapter;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ListaLeilaoActivityTest {
+public class AtualizadorDeLeiloesTest {
 
     @Mock
     private Context context;
@@ -34,7 +35,7 @@ public class ListaLeilaoActivityTest {
 
     @Test
     public void deve_AtualizarListaDeLeiloes_QuandoBuscarLeiloesDaApi() throws InterruptedException {
-        final ListaLeilaoActivity activity = new ListaLeilaoActivity();
+        final AtualizadorDeLeiloes atualizadorDeLeiloes = new AtualizadorDeLeiloes();
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) {
@@ -46,12 +47,11 @@ public class ListaLeilaoActivityTest {
                 return null;
             }
         }).when(client).todos(any(RespostaListener.class));
-        activity.buscaLeiloes(adapter, client);
+        atualizadorDeLeiloes.buscaLeiloes(adapter, client, context);
         verify(client).todos(any(RespostaListener.class));
         verify(adapter).atualiza(new ArrayList<>(Arrays.asList(
                 new Leilao("Computador"),
                 new Leilao("Carro")
         )));
     }
-
 }
