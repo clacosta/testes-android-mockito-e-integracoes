@@ -1,6 +1,7 @@
 package br.com.alura.leilao.ui.recyclerview.adapter;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class ListaLeilaoAdapterTest {
 
     @Test
     public void deve_AtualizaListaDeLeiloes_QuandoReceberListaDeLeiloes() {
-        final ListaLeilaoAdapter adapter = new ListaLeilaoAdapter(null);
+        final ListaLeilaoAdapter adapter = Mockito.spy(new ListaLeilaoAdapter(null));
+        Mockito.doNothing().when(adapter).atualizaLista();
         adapter.atualiza(new ArrayList<>(Arrays.asList(
                 new Leilao("Console"),
                 new Leilao("Computador")
