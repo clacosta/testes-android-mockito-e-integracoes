@@ -1,7 +1,5 @@
 package br.com.alura.leilao.ui;
 
-import android.content.Context;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -26,8 +24,6 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class AtualizadorDeLeiloesTest {
 
-    @Mock
-    private Context context;
     @Mock
     private ListaLeilaoAdapter adapter;
     @Mock
