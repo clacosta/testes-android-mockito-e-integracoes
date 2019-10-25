@@ -2,12 +2,13 @@ package br.com.alura.leilao.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import br.com.alura.leilao.exception.LanceMenorQueUltimoLanceException;
 import br.com.alura.leilao.exception.LanceSeguidoDoMesmoUsuarioException;
 import br.com.alura.leilao.exception.UsuarioJaDeuCincoLancesException;
+
+import static java.util.Collections.sort;
 
 public class Leilao implements Serializable {
 
@@ -24,7 +25,7 @@ public class Leilao implements Serializable {
     public void propoe(Lance lance) {
         valida(lance);
         lances.add(lance);
-        Collections.sort(lances);
+        sort(lances);
     }
 
     private void valida(Lance lance) {
